@@ -93,10 +93,20 @@ class arvoreAVLRecursiva():
                 raiz.bal = 0
                 self._cresceu = False
             case 1:
-                filhoDireita: _tipoNo = raiz.direita
-                if filhoDireita.bal == 1:
+                p1: _tipoNo = raiz.direita
+                if p1.bal == -1:
+                    p2: _tipoNo = p1.esquerda
+                    raiz.direita = p2.esquerda
+                    p1.esquerda = p2.direita
+                    p2.esquerda = raiz
+                    p2.direita = p1
                     
-                
+                else:
+                    raiz.direita = p1.esquerda
+                    p1.esquerda = raiz
+                    raiz.bal = 0
+                    p1.bal = 0
+                    raiz = p1
 
     def _balanceiaEsqIns(self, raiz: _tipoNo) -> _tipoNo:
         """ 
@@ -320,7 +330,3 @@ if __name__ == "__main__":
     item: tipoItem=arv.removeAVL("XES")
     print(item.nome)
     arv.mostraEmOrdem()
-
-    
-    
-
