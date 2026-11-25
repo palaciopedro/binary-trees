@@ -94,6 +94,7 @@ class arvoreAVLRecursiva():
                 self._cresceu = False
             case 1:
                 p1: _tipoNo = raiz.direita
+                
                 if p1.bal == -1:
                     p2: _tipoNo = p1.esquerda
                     raiz.direita = p2.esquerda
@@ -110,6 +111,9 @@ class arvoreAVLRecursiva():
                     else:
                         raiz.bal = 0
                         p1.bal = 1
+
+                    p2.bal = 0
+                    raiz = p2
                     
                 else:
                     raiz.direita = p1.esquerda
@@ -120,12 +124,50 @@ class arvoreAVLRecursiva():
 
                 self._cresceu = False
 
-            return raiz
+        return raiz
 
     def _balanceiaEsqIns(self, raiz: _tipoNo) -> _tipoNo:
         """ 
         """
+        match raiz.bal:
+            case 0:
+                raiz.bal = -1
+            case 1:
+                raiz.bal = 0
+                self._cresceu = False
+            case -1:
+                p1: _tipoNo = raiz.esquerda
 
+                if p1.bal == +1:
+                    p2: _tipoNo = p1.direita
+                    raiz.esquerda = p2.direita
+                    p1.direita = p2.esquerda
+                    p2.esquerda = p1
+                    p2.direita = raiz
+
+                    if p2.bal == -1:
+                        p1.bal = 0
+                        raiz.bal = 1
+                    elif p2.bal == 0:
+                        p1.bal = 0
+                        raiz.bal = 0
+                    else:
+                        p1.bal = -1
+                        raiz.bal = 0
+
+                    p2.bal = 0    
+                    raiz = p2
+
+                else:
+                    raiz.esquerda = p1.direita
+                    p1.direita = raiz
+                    p1.bal = 0
+                    raiz.bal = 0
+                    raiz = p1
+
+                self._cresceu = False
+
+        return raiz
         
     def _insereAVL2(self, raiz: _tipoNo, item: tipoItem) -> _tipoNo:
         """ 
@@ -344,4 +386,3 @@ if __name__ == "__main__":
     item: tipoItem=arv.removeAVL("XES")
     print(item.nome)
     arv.mostraEmOrdem()
-
