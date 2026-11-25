@@ -176,38 +176,48 @@ class arvoreAVLRecursiva():
             self._opSt = ArvoreCheia
             return None
 
-        if raiz is None:
-            raiz: _tipoNo = _tipoNo()
-            raiz.item = deepcopy(item)
-            self._cresceu = True
-            self._opSt = ItemInserido
-
-            return raiz
         else:
-            if item.nome > raiz.item.nome:
-                raiz.direita = self._insereAVL2(raiz.direita, item)
-                if self.cresceu:
-                    raiz = self._balanceiaDirIns(raiz)
-            elif item.nome < raiz.item.nome:
-                raiz.esquerda = self._insereAVL2(raiz.esquerda, item)
-                if self.cresceu:
-                    raiz = self._balanceiaEsqIns(raiz)
+            if raiz is None:
+                raiz: _tipoNo = _tipoNo()
+                raiz.item = deepcopy(item)
+                self._cresceu = True
+                self._opSt = ItemInserido
+                self._numItens += 1
+                return raiz
             else:
-                self._opSt = ItemExistente
-                self._cresceu = False
+                if item.nome > raiz.item.nome:
+                    raiz.direita = _insereAVL2(raiz.direita, item)
+                    if self._cresceu:
+                        raiz = self._balanceiaDirIns(raiz)
+                elif item.nome < raiz.item.nome:
+                    raiz.esquerda = _insereAVL2(raiz.esquerda, item)
+                    if self._cresceu:
+                        raiz = self._balanceiaEsqIns(raiz)
+                else:
+                    self._opSt = ItemExistente
+                    self._cresceu = False
 
-            return raiz
-
+                return raiz
+            
     def insereAVL(self, item: tipoItem) -> None:
         """ 
         """
         self._cresceu = False
         self._raiz = self._insereAVL2(self._raiz, item)
-
+        
     def _balanceiaDirRem(self, raiz: _tipoNo) -> _tipoNo:
         """ 
-        """       
-
+        """
+        match raiz.bal:
+            case 1:
+                raiz.bal = 0
+            case 0:
+                raiz.bal = -1
+            case -1:
+                p1: _tipoNo = raiz.esquerda
+                if p1.bal == -1:
+                    
+        
     def _balanceiaEsqRem(self, raiz: _tipoNo) -> _tipoNo:
         """ 
         """
