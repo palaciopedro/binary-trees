@@ -171,11 +171,38 @@ class arvoreAVLRecursiva():
         
     def _insereAVL2(self, raiz: _tipoNo, item: tipoItem) -> _tipoNo:
         """ 
-        """        
-        
+        """
+        if self.cheia():
+            self._opSt = ArvoreCheia
+            return None
+
+        if raiz is None:
+            raiz: _tipoNo = _tipoNo()
+            raiz.item = deepcopy(item)
+            self._cresceu = True
+            self._opSt = ItemInserido
+
+            return raiz
+        else:
+            if item.nome > raiz.item.nome:
+                raiz.direita = self._insereAVL2(raiz.direita, item)
+                if self.cresceu:
+                    raiz = self._balanceiaDirIns(raiz)
+            elif item.nome < raiz.item.nome:
+                raiz.esquerda = self._insereAVL2(raiz.esquerda, item)
+                if self.cresceu:
+                    raiz = self._balanceiaEsqIns(raiz)
+            else:
+                self._opSt = ItemExistente
+                self._cresceu = False
+
+            return raiz
+
     def insereAVL(self, item: tipoItem) -> None:
         """ 
         """
+        self._cresceu = False
+        self._raiz = self._insereAVL2(self._raiz, item)
 
     def _balanceiaDirRem(self, raiz: _tipoNo) -> _tipoNo:
         """ 
